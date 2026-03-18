@@ -13,7 +13,7 @@ description: Exhibition landing page with poster, curatorial note, and thumbnail
       <p class="page-kicker">Exhibition Landing</p>
       <h1 class="hero-title">{{ exhibition.title }}</h1>
       <p class="hero-meta">{{ exhibition.dates }}{% if exhibition.venue %} · {{ exhibition.venue }}{% endif %}</p>
-      <p class="hero-tagline">{{ exhibition.tagline }}</p>
+      <p class="hero-tagline">{{ exhibition.description | default: site.description | default: exhibition.tagline }}</p>
       <div class="hero-copy">
         {{ exhibition.content | markdownify }}
       </div>
@@ -50,4 +50,3 @@ description: Exhibition landing page with poster, curatorial note, and thumbnail
     </div>
   </div>
 </section>
-
