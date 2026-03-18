@@ -196,6 +196,10 @@ textarea {
   gap: 20px;
 }
 
+.filter-toolbar + .photo-grid {
+  margin-top: 16px;
+}
+
 .section-heading,
 .page-header {
   margin-bottom: 28px;
