@@ -283,6 +283,8 @@ textarea {
 
 .artist-card {
   display: grid;
+  grid-template-columns: clamp(96px, 12vw, 132px) minmax(0, 1fr);
+  align-items: stretch;
   gap: 18px;
 }
 
@@ -290,12 +292,25 @@ textarea {
   overflow: hidden;
   border-radius: 18px;
   background: var(--paper-strong);
-  aspect-ratio: 4 / 5;
+  height: 100%;
+  min-height: 168px;
 }
 
 .artist-portrait {
+  width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.artist-content {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.artist-head {
+  display: grid;
+  gap: 4px;
 }
 
 .search-field {
@@ -484,7 +499,6 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .artist-list,
   .upload-grid,
   .detail-grid,
   .hero-grid {
@@ -611,6 +625,16 @@ textarea {
 }
 
 @media (max-width: 540px) {
+  .artist-card {
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .artist-media {
+    min-height: 132px;
+    border-radius: 16px;
+  }
+
   .tile-grid,
   .photo-grid,
   .artist-list {

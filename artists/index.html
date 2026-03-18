@@ -16,12 +16,14 @@ description: Artist list with camera models and bios.
           <div class="artist-media">
             <img class="artist-portrait" src="{{ portrait_image | relative_url }}" alt="{{ artist.name | escape }}">
           </div>
-          <div class="artist-head">
-            <h2>{{ artist.name }}</h2>
-            <p>{{ artist.camera_model }}</p>
-          </div>
-          <div class="artist-body">
-            {{ artist.content | markdownify }}
+          <div class="artist-content">
+            <div class="artist-head">
+              <h2>{{ artist.name }}</h2>
+              <p>{{ artist.camera_model }}</p>
+            </div>
+            <div class="artist-body">
+              {{ artist.content | markdownify }}
+            </div>
           </div>
         </article>
       {% endfor %}
