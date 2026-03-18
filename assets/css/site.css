@@ -470,6 +470,12 @@ textarea {
     --shell: min(100vw - 28px, 1180px);
   }
 
+  .site-header {
+    position: static;
+    backdrop-filter: none;
+    background: rgba(251, 250, 245, 0.96);
+  }
+
   .section-heading,
   .page-header,
   .filter-toolbar,
@@ -479,23 +485,31 @@ textarea {
   }
 
   .header-shell {
+    flex-direction: column;
     align-items: stretch;
-    gap: 14px;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 14px 0 12px;
+  }
+
+  .brand {
+    gap: 4px;
+  }
+
+  .brand-kicker {
+    font-size: 0.64rem;
+  }
+
+  .brand-name {
+    font-size: 1.08rem;
+    line-height: 1.15;
   }
 
   .site-nav {
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .site-nav::-webkit-scrollbar {
-    display: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
   }
 
   .hero-shell,
@@ -538,9 +552,33 @@ textarea {
   .upload-form button {
     width: 100%;
   }
+
+  .site-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.78);
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .site-nav a.is-active,
+  .site-nav a:hover {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #fff;
+  }
 }
 
 @media (max-width: 540px) {
+  .site-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .tile-grid,
   .photo-grid,
   .artist-list {
