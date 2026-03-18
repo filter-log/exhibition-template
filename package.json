@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "sync:template": "node ./scripts/sync-template-config.mjs",
     "sync:assets": "node ./scripts/sync-exhibition-assets.mjs"
   },
   "dependencies": {
-    "sharp": "^0.34.1"
+    "sharp": "^0.34.1",
+    "yaml": "^2.8.1"
   }
 }
-

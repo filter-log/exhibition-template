@@ -173,6 +173,10 @@ textarea {
   letter-spacing: -0.03em;
 }
 
+.hero-title {
+  font-size: clamp(1.85rem, 3.2vw, 3rem);
+}
+
 .hero-meta,
 .hero-tagline,
 .page-summary,
@@ -552,6 +556,10 @@ textarea {
   .detail-title,
   .section-heading h2 {
     font-size: clamp(2.1rem, 11vw, 3.4rem);
+  }
+
+  .hero-title {
+    font-size: clamp(1.8rem, 9vw, 2.7rem);
   }
 
   .upload-page .page-header h1 {

@@ -1,6 +1,6 @@
 # exhibition-template
 
-`exhibition-template`는 전시회 하나당 저장소 하나를 만드는 GitHub Pages 템플릿이다. 새 저장소를 `exhibition-2026-spring`, `exhibition-2026-photoweek`, `exhibition-filter-showcase`처럼 만들고, 몇 개 설정만 바꾸면 공개 전시 아카이브와 업로드 UI, Pages CMS, GitHub Actions 썸네일 파이프라인이 함께 동작하도록 설계했다.
+`exhibition-template`는 전시회 하나당 저장소 하나를 만드는 GitHub Pages 템플릿이다. 새 저장소를 `exhibition-2026-spring`, `exhibition-2026-photoweek`, `exhibition-filter-showcase`처럼 만들고, `exhibition.setup.yml` 한 파일만 바꾸면 공개 전시 아카이브와 업로드 UI, Pages CMS, GitHub Actions 썸네일 파이프라인이 함께 동작하도록 설계했다.
 
 핵심 원칙은 다음과 같다.
 
@@ -31,10 +31,12 @@
 ```text
 .
 ├── .github/workflows/sync-exhibition-assets.yml
+├── .github/workflows/sync-template-settings.yml
 ├── .pages.yml
 ├── _artworks/
 ├── _artists/
 ├── _exhibition/index.md
+├── exhibition.setup.yml
 ├── _layouts/
 ├── assets/
 │   ├── css/site.css
@@ -91,55 +93,46 @@
 3. Branch는 `main`, folder는 `/ (root)`를 선택한다.
 4. 저장 후 몇 분 뒤 `https://<owner>.github.io/<repo>/`가 공개 URL이 된다.
 
-### 4. 새 레포에서 가장 먼저 바꿀 파일 3개
+### 4. 새 레포에서 가장 먼저 바꿀 파일 1개
 
-새 전시회 레포를 만든 뒤 아래 파일만 먼저 바꾸면 기본 동작은 거의 준비된다.
-
-#### `_config.yml`
-
-- `title`
-- `description`
-- `url`
-- `baseurl`
+새 전시회 레포를 만든 뒤 [exhibition.setup.yml](exhibition.setup.yml)만 수정하면 된다. 이 파일을 기준으로 `_config.yml`, `assets/js/config.js`, `_exhibition/index.md`가 자동 생성된다.
 
 예:
 
 ```yml
-title: Exhibition 2026 Spring
-description: Public archive for the 2026 Spring exhibition.
-url: https://filter-log.github.io
-baseurl: /exhibition-2026-spring
+repository:
+  separator: "-"
+  suffix: 2026-spring
+
+site:
+  title: Exhibition 2026 Spring
+  description: Public archive for the 2026 Spring exhibition.
+  dates: 2026.03.20 - 2026.04.12
+  venue: Filter Archive, Seoul
+  tagline: Spring edition of the filter exhibition archive.
+  poster_image: /assets/exhibition/poster-template.svg
+  hero_alt: Exhibition 2026 Spring poster
+
+content:
+  exhibition_markdown: |
+    전시 설명 본문
 ```
 
-#### `assets/js/config.js`
+설정 규칙:
 
-- `repoName`
-- `siteUrl`
-- `workerApiUrl`
-- `pagesCmsUrl`
+- `repository.suffix`만 바꾸면 `exhibition-2026-spring` 같은 repo 이름이 자동 계산된다.
+- `repository.separator`를 `_`로 바꾸면 `exhibition_2026_spring`도 만들 수 있다.
+- 접두사 `exhibition`은 고정이다.
+- Worker URL은 `https://exhibition-worker.filter-log.workers.dev`로 고정이다.
+- GitHub Pages base URL과 Pages CMS URL도 자동 계산된다.
 
-예:
+자동 생성 대상:
 
-```js
-window.EXHIBITION_CONFIG = {
-  repoName: "exhibition-2026-spring",
-  siteUrl: "https://filter-log.github.io/exhibition-2026-spring",
-  workerApiUrl: "https://exhibition-worker.<subdomain>.workers.dev",
-  pagesCmsUrl: "https://app.pagescms.org/filter-log/exhibition-2026-spring/main",
-  maxArtworkDescriptionLength: 200,
-  maxArtistDescriptionLength: 500
-};
-```
+- `_config.yml`
+- `assets/js/config.js`
+- `_exhibition/index.md`
 
-#### `_exhibition/index.md`
-
-- 전시회명
-- 전시 일정
-- 장소
-- 포스터 경로
-- 전시 설명 본문
-
-이 파일은 랜딩 페이지와 footer 문구의 기준 데이터다.
+즉 비전공자는 이 세 파일을 직접 건드릴 필요가 없다.
 
 ## 업로드와 콘텐츠 구조
 
@@ -230,7 +223,7 @@ order: 2
 
 프론트엔드 동작:
 
-1. `assets/js/config.js`에서 `repoName`을 읽는다.
+1. `exhibition.setup.yml`에서 생성된 `assets/js/config.js`가 `repoName`을 읽는다.
 2. 화면에서 입력값으로 저장 경로 preview를 만든다.
 3. `POST /auth`로 공통 암호를 검증한다.
 4. 발급받은 Bearer 토큰으로 실제 업로드 엔드포인트를 호출한다.
@@ -266,8 +259,8 @@ order: 2
 
 1. `exhibition-template`에서 새 레포를 만든다.
 2. `Settings -> Pages`에서 Pages를 켠다.
-3. `_config.yml`, `assets/js/config.js`, `_exhibition/index.md`만 수정한다.
-4. `assets/js/config.js`에 공용 Worker URL을 넣는다.
+3. `exhibition.setup.yml` 한 파일만 수정한다.
+4. `Sync Template Settings` 워크플로가 `_config.yml`, `assets/js/config.js`, `_exhibition/index.md`를 자동 갱신한다.
 5. Pages CMS에 접속해서 작가/작품을 직접 만들거나 업로드 페이지를 사용한다.
 6. 업로드가 끝나면 GitHub Actions가 썸네일을 자동 생성한다.
 
@@ -277,6 +270,7 @@ order: 2
 
 ```bash
 npm install
+npm run sync:template
 npm run sync:assets
 ```
 
@@ -284,4 +278,3 @@ npm run sync:assets
 
 - 아키텍처 개요: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - 운영 가이드: [docs/OPERATIONS.md](docs/OPERATIONS.md)
-

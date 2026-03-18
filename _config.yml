@@ -1,11 +1,11 @@
-title: Exhibition Template
+# Generated from exhibition.setup.yml. Edit that file instead.
+title: Filter Spring Exhibition
 description: Reusable archive template for photography exhibitions on GitHub Pages.
 url: https://filter-log.github.io
 baseurl: /exhibition-template
 timezone: Asia/Seoul
 markdown: kramdown
 permalink: pretty
-
 collections:
   artworks:
     output: true
@@ -14,7 +14,6 @@ collections:
     output: false
   exhibition:
     output: false
-
 defaults:
   - scope:
       path: ""
@@ -25,4 +24,3 @@ defaults:
       type: artworks
     values:
       layout: artwork
-

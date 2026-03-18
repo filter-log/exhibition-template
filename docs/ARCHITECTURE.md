@@ -10,6 +10,12 @@
 
 ## 데이터 모델
 
+### `exhibition.setup.yml`
+
+- 템플릿 초기 설정의 단일 소스
+- 레포 접미사, 전시회 제목, 공개 URL, Worker URL을 한 번에 관리
+- `_config.yml`, `assets/js/config.js`, `_exhibition/index.md`를 생성
+
 ### `_artworks`
 
 - 작품당 Markdown 1개
@@ -26,6 +32,7 @@
 
 - 전시회 정보 단일 파일
 - 랜딩 페이지와 footer, 공개 메타데이터의 기준
+- 초기 템플릿 생성 시에는 `exhibition.setup.yml`에서 자동 생성
 
 ### 이미지
 
@@ -53,4 +60,3 @@
 - Worker는 인증과 GitHub 파일 쓰기에 집중하므로 유지보수가 쉽다.
 - 이미지 처리는 GitHub Actions에서 재시도와 재실행이 쉽다.
 - 전시회별로 독립 실행되므로 특정 레포만 재빌드해도 된다.
-

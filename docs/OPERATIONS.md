@@ -4,11 +4,9 @@
 
 1. `Use this template`로 `exhibition-*` 이름의 새 레포 생성
 2. GitHub Pages 활성화
-3. `_config.yml` 수정
-4. `assets/js/config.js` 수정
-5. `_exhibition/index.md` 수정
-6. 공용 Worker URL 입력
-7. Pages CMS 접속 확인
+3. `exhibition.setup.yml` 수정
+4. `Sync Template Settings` 워크플로 실행 확인
+5. Pages CMS 접속 확인
 
 ## 작품 업로드 후 기대 동작
 
@@ -20,9 +18,8 @@
 
 ## 자주 수정하는 파일
 
-- `_config.yml`: GitHub Pages base URL
-- `assets/js/config.js`: 레포 이름, Worker URL, CMS URL
-- `_exhibition/index.md`: 전시 제목, 설명, 일정, 장소, 포스터
+- `exhibition.setup.yml`: 레포 접미사, 전시 제목, 설명, 일정, 장소, 포스터
+- `_exhibition/index.md`: 이후 Pages CMS나 업로드 페이지로 관리하는 전시회 정보
 
 ## Pages CMS 운영 팁
 
@@ -40,11 +37,11 @@
 
 ### 업로드 페이지가 preview only로 보일 때
 
-- `assets/js/config.js`의 `workerApiUrl`이 비어 있는지 확인
+- `Sync Template Settings` 워크플로가 정상 실행됐는지 확인
+- `assets/js/config.js`가 `exhibition.setup.yml` 기준으로 생성됐는지 확인
 
 ### Worker가 업로드를 거부할 때
 
 - 레포 이름이 `exhibition`으로 시작하는지 확인
 - 비밀번호가 Cloudflare secret과 맞는지 확인
-- `repoName`이 `assets/js/config.js`와 실제 저장소 이름과 같은지 확인
-
+- `repository.suffix`와 실제 저장소 이름이 일치하는지 확인
