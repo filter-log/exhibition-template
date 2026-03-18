@@ -139,11 +139,13 @@ content:
 
 공개 메뉴에는 업로드 링크를 넣지 않는다. 일반 방문자는 `Home`, `Artists`, `Photos`만 보게 하고, 관리자는 아래 직접 URL로 접근한다.
 
-- `/upload/artwork/`
-- `/upload/artist/`
-- `/upload/exhibition/`
+<!-- GENERATED_ADMIN_LINKS_START -->
+- 작품 업로드: `https://filter-log.github.io/exhibition-template/upload/artwork/`
+- 작가 정보 업로드: `https://filter-log.github.io/exhibition-template/upload/artist/`
+- 전시회 정보 업로드: `https://filter-log.github.io/exhibition-template/upload/exhibition/`
+<!-- GENERATED_ADMIN_LINKS_END -->
 
-즉 관리자는 저장소를 열어 README를 보고 직접 URL로 들어가면 된다.
+즉 관리자는 저장소를 열어 README에 적힌 완전체 링크로 바로 들어가면 된다. 이 링크들은 `exhibition.setup.yml` 기준으로 자동 갱신된다.
 
 ## 업로드로 할 수 있는 일
 

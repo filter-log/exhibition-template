@@ -7,9 +7,12 @@ const GITHUB_OWNER = "filter-log";
 const PUBLIC_BASE_URL = "https://filter-log.github.io";
 const PAGES_CMS_BASE_URL = "https://app.pagescms.org";
 const FIXED_WORKER_API_URL = "https://exhibition-worker.filter-log.workers.dev";
+const README_LINKS_START = "<!-- GENERATED_ADMIN_LINKS_START -->";
+const README_LINKS_END = "<!-- GENERATED_ADMIN_LINKS_END -->";
 
 const repoRoot = process.cwd();
 const setupPath = path.join(repoRoot, "exhibition.setup.yml");
+const readmePath = path.join(repoRoot, "README.md");
 
 const setup = parse(await readFile(setupPath, "utf8"));
 const repoSeparator = normalizeSeparator(setup?.repository?.separator);
@@ -39,6 +42,7 @@ const pagesCmsUrl = `${pagesCmsBaseUrl}/${githubOwner}/${repoName}/main`;
 await writeFile(path.join(repoRoot, "_config.yml"), buildJekyllConfig());
 await writeFile(path.join(repoRoot, "assets", "js", "config.js"), buildClientConfig());
 await writeFile(path.join(repoRoot, "_exhibition", "index.md"), buildExhibitionDocument());
+await writeFile(readmePath, buildReadmeWithAdminLinks(await readFile(readmePath, "utf8")));
 
 console.log(`Synced template config for ${repoName}.`);
 
@@ -118,6 +122,23 @@ function buildExhibitionDocument() {
   return `---\n${frontMatter}\n---\n${exhibitionMarkdown}\n`;
 }
 
+function buildReadmeWithAdminLinks(readmeSource) {
+  const replacement = [
+    README_LINKS_START,
+    `- 작품 업로드: \`${siteUrl}/upload/artwork/\``,
+    `- 작가 정보 업로드: \`${siteUrl}/upload/artist/\``,
+    `- 전시회 정보 업로드: \`${siteUrl}/upload/exhibition/\``,
+    README_LINKS_END
+  ].join("\n");
+
+  const pattern = new RegExp(`${escapeForRegExp(README_LINKS_START)}[\\s\\S]*?${escapeForRegExp(README_LINKS_END)}`);
+  if (!pattern.test(readmeSource)) {
+    return readmeSource;
+  }
+
+  return readmeSource.replace(pattern, replacement);
+}
+
 function readString(value, fallback) {
   const normalized = String(value || "").trim();
   return normalized || fallback;
@@ -130,4 +151,8 @@ function trimTrailingSlash(value) {
 function normalizeSeparator(value) {
   const normalized = String(value || "-").trim();
   return normalized === "_" ? "_" : "-";
+}
+
+function escapeForRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
