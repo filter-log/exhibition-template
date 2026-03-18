@@ -4,6 +4,7 @@ const artistConfig = artistUpload.getConfig();
 const artistForm = document.getElementById("artist-upload-form");
 const artistNameInput = document.getElementById("artist-name");
 const artistCameraInput = document.getElementById("artist-camera");
+const artistImageInput = document.getElementById("artist-image");
 const artistBioInput = document.getElementById("artist-bio");
 const artistBioCount = document.getElementById("artist-bio-count");
 const artistPasswordInput = document.getElementById("artist-password");
@@ -39,6 +40,7 @@ artistUpload
   });
 
 [artistNameInput, artistCameraInput].forEach((input) => input.addEventListener("input", refreshArtistPreview));
+artistImageInput.addEventListener("change", refreshArtistPreview);
 
 artistBioInput.addEventListener("input", () => {
   artistUpload.setCharCount(artistBioInput, artistBioCount, artistConfig.maxArtistDescriptionLength);
@@ -74,6 +76,9 @@ artistForm.addEventListener("submit", async (event) => {
     formData.append("artistName", artistNameInput.value.trim());
     formData.append("cameraModel", artistCameraInput.value.trim());
     formData.append("bio", artistBioInput.value.trim());
+    if (artistImageInput.files?.[0]) {
+      formData.append("artistImage", artistImageInput.files[0]);
+    }
 
     const responsePayload = await artistUpload.submitMultipart(
       artistConfig,
@@ -94,7 +99,9 @@ artistForm.addEventListener("submit", async (event) => {
 
 function buildArtistPayload() {
   const artistName = artistNameInput.value.trim();
-  const artistSlug = artistUpload.slugify(artistName);
+  const artistSlug = artistUpload.slugify(artistName) || "artist";
+  const artistImage = artistImageInput.files?.[0] || null;
+  const artistImageExtension = artistImage ? artistUpload.fileExtension(artistImage.name) || ".jpg" : "";
 
   return {
     endpoint: artistConfig.workerApiUrl ? `${artistConfig.workerApiUrl}/upload/artist` : "Preview only",
@@ -105,7 +112,8 @@ function buildArtistPayload() {
       bio: artistBioInput.value.trim()
     },
     files: {
-      artistMarkdown: `_artists/${artistSlug}.md`
+      artistMarkdown: `_artists/${artistSlug}.md`,
+      artistImage: artistImage ? `assets/uploads/artists/${artistSlug}${artistImageExtension}` : "default placeholder"
     }
   };
 }
@@ -113,4 +121,3 @@ function buildArtistPayload() {
 function refreshArtistPreview() {
   artistUpload.renderJson(artistPayloadPreview, buildArtistPayload());
 }
-

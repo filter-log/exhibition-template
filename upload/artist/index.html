@@ -25,6 +25,11 @@ scripts:
           <input id="artist-camera" name="cameraModel" type="text" maxlength="120" required>
         </label>
         <label>
+          <span>작가 이미지</span>
+          <input id="artist-image" name="artistImage" type="file" accept="image/*">
+          <small>비워두면 기본 이미지를 사용한다.</small>
+        </label>
+        <label>
           <span>작가 설명</span>
           <textarea id="artist-bio" name="bio" maxlength="500" rows="7" required></textarea>
           <small><span id="artist-bio-count">0</span> / 500</small>

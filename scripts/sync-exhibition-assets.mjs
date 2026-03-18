@@ -32,6 +32,7 @@ await writeJson(
     .sort((left, right) => compareByOrder(left, right, "name"))
     .map((artist) => ({
       ...artist.data,
+      portrait_image: artist.data.portrait_image || "/assets/exhibition/artist-placeholder.svg",
       body: artist.body
     }))
 );
@@ -194,4 +195,3 @@ function stripLeadingSlash(value) {
 async function writeJson(filePath, payload) {
   await writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`);
 }
-

@@ -9,6 +9,11 @@ media:
     input: assets/uploads/originals
     output: /assets/uploads/originals
     categories: [ image ]
+  - name: artist_portraits
+    label: Artist Portraits
+    input: assets/uploads/artists
+    output: /assets/uploads/artists
+    categories: [ image ]
 
 content:
   - name: exhibition
@@ -141,6 +146,11 @@ content:
         label: Camera Model
         type: string
         required: true
+      - name: portrait_image
+        label: Artist Portrait
+        type: image
+        options:
+          media: artist_portraits
       - name: order
         label: Order
         type: number
@@ -152,4 +162,3 @@ content:
 settings:
   content:
     merge: true
-

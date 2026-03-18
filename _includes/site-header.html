@@ -9,10 +9,6 @@
       <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="is-active"{% endif %}>Home</a>
       <a href="{{ '/artists/' | relative_url }}" {% if page.url contains '/artists/' %}class="is-active"{% endif %}>Artists</a>
       <a href="{{ '/photos/' | relative_url }}" {% if page.url contains '/photos/' %}class="is-active"{% endif %}>Photos</a>
-      <a href="{{ '/upload/artwork/' | relative_url }}" {% if page.url contains '/upload/artwork/' %}class="is-active"{% endif %}>Upload Work</a>
-      <a href="{{ '/upload/artist/' | relative_url }}" {% if page.url contains '/upload/artist/' %}class="is-active"{% endif %}>Upload Artist</a>
-      <a href="{{ '/upload/exhibition/' | relative_url }}" {% if page.url contains '/upload/exhibition/' %}class="is-active"{% endif %}>Upload Exhibition</a>
     </nav>
   </div>
 </header>
-

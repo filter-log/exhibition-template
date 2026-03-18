@@ -1,14 +1,15 @@
 # exhibition-template
 
-`exhibition-template`는 전시회 하나당 저장소 하나를 만드는 GitHub Pages 템플릿이다. 새 저장소를 `exhibition-2026-spring`, `exhibition-2026-photoweek`, `exhibition-filter-showcase`처럼 만들고, `exhibition.setup.yml` 한 파일만 바꾸면 공개 전시 아카이브와 업로드 UI, Pages CMS, GitHub Actions 썸네일 파이프라인이 함께 동작하도록 설계했다.
+`exhibition-template`는 전시회 하나당 저장소 하나를 만드는 GitHub Pages 템플릿이다. 새 저장소를 `exhibition-2026-spring`, `exhibition-2026-photoweek`, `exhibition-filter-showcase`처럼 만들고, `exhibition.setup.yml` 한 파일만 바꾸면 공개 전시 아카이브와 관리자용 업로드 UI, Pages CMS, GitHub Actions 썸네일 파이프라인이 함께 동작한다.
 
 핵심 원칙은 다음과 같다.
 
 - 전시회 하나당 레포 하나
-- 사이트, 작품 마크다운, 작가 마크다운, 전시회 정보, 원본 이미지, 썸네일을 모두 같은 레포에서 관리
+- 사이트, 작품 Markdown, 작가 Markdown, 전시회 정보, 원본 이미지, 썸네일을 모두 같은 레포에서 관리
 - 업로드 처리는 공통 `exhibition-worker`가 담당
 - 썸네일과 공개용 JSON 갱신은 각 전시회 레포의 GitHub Actions가 담당
-- 고급 사용자는 Pages CMS에서 작품 post를 직접 만들고 수정 가능
+- 공개 메뉴에는 `Home`, `Artists`, `Photos`만 노출
+- 관리자 업로드 페이지는 직접 URL로만 접근
 
 ## 이 템플릿이 만드는 것
 
@@ -16,13 +17,14 @@
 - `/artists/` 작가 목록 페이지
 - `/photos/` 작품 목록 페이지
 - `/photos/{slug}/` 작품 상세 페이지
-- `/upload/artwork/` 사진 업로드 페이지
+- `/upload/artwork/` 작품 업로드 페이지
 - `/upload/artist/` 작가 정보 업로드 페이지
 - `/upload/exhibition/` 전시회 정보 업로드 페이지
 - `.pages.yml` 기반 Pages CMS 설정
 - `_artworks`, `_artists`, `_exhibition` 컬렉션
 - `assets/uploads/originals/` 원본 이미지 경로
 - `assets/uploads/thumbs/` 썸네일 경로
+- `assets/uploads/artists/` 작가 이미지 경로
 - `data/*.json` 공개용 인덱스
 - GitHub Actions 기반 썸네일 및 데이터 동기화 워크플로
 
@@ -49,6 +51,7 @@
 │   │   ├── upload-artist.js
 │   │   └── upload-exhibition.js
 │   └── uploads/
+│       ├── artists/
 │       ├── originals/
 │       └── thumbs/
 ├── artists/index.html
@@ -95,7 +98,7 @@
 
 ### 4. 새 레포에서 가장 먼저 바꿀 파일 1개
 
-새 전시회 레포를 만든 뒤 [exhibition.setup.yml](exhibition.setup.yml)만 수정하면 된다. 이 파일을 기준으로 `_config.yml`, `assets/js/config.js`, `_exhibition/index.md`가 자동 생성된다.
+새 전시회 레포를 만든 뒤 `exhibition.setup.yml`만 수정하면 된다. 이 파일을 기준으로 `_config.yml`, `assets/js/config.js`, `_exhibition/index.md`가 자동 생성된다.
 
 예:
 
@@ -132,13 +135,39 @@ content:
 - `assets/js/config.js`
 - `_exhibition/index.md`
 
-즉 비전공자는 이 세 파일을 직접 건드릴 필요가 없다.
+## 관리자 업로드 페이지
 
-## 업로드와 콘텐츠 구조
+공개 메뉴에는 업로드 링크를 넣지 않는다. 일반 방문자는 `Home`, `Artists`, `Photos`만 보게 하고, 관리자는 아래 직접 URL로 접근한다.
+
+- `/upload/artwork/`
+- `/upload/artist/`
+- `/upload/exhibition/`
+
+즉 관리자는 저장소를 열어 README를 보고 직접 URL로 들어가면 된다.
+
+## 업로드로 할 수 있는 일
+
+- `/upload/artwork/`
+  - 작품 이미지
+  - 작품명
+  - 작가명
+  - 카메라 기종
+  - 장소
+  - SNS ID
+  - 작품 설명
+- `/upload/artist/`
+  - 작가명
+  - 카메라 기종
+  - 작가 이미지 선택 업로드
+  - 작가 설명
+- `/upload/exhibition/`
+  - 전시회명
+  - 전시 설명
+  - 포스터 또는 대표 이미지
+
+## 콘텐츠 구조
 
 ### 작품 1개 = `_artworks/{slug}.md`
-
-Worker와 Pages CMS가 같은 front matter를 사용한다.
 
 예:
 
@@ -162,8 +191,8 @@ order: 2
 파일명 규칙:
 
 - 원본 이미지: `assets/uploads/originals/{artist}-{title}.ext`
-- 썸네일: `assets/uploads/thumbs/{artist}-{title}.webp`
-- 작품 Markdown: `_artworks/{artist}-{title}.md`
+- 썸네일: `assets/uploads/thumbs/{slug}.webp`
+- 작품 Markdown: `_artworks/{slug}.md`
 
 ### 작가 1명 = `_artists/{slug}.md`
 
@@ -174,10 +203,13 @@ order: 2
 name: "Kim Minseo"
 slug: "kim-minseo"
 camera_model: "Fujifilm GFX 50R"
+portrait_image: "/assets/uploads/artists/kim-minseo.jpg"
 order: 2
 ---
 작가 설명 본문
 ```
+
+작가 이미지가 없으면 사이트는 `/assets/exhibition/artist-placeholder.svg`를 기본값으로 사용한다.
 
 ### 전시회 정보 = `_exhibition/index.md`
 
@@ -185,12 +217,12 @@ order: 2
 
 ## Pages CMS 사용법
 
-`exhibition-template`에는 `.pages.yml`이 이미 들어 있다. 즉 새 전시회 레포를 만들면 바로 Pages CMS에서 아래 작업을 할 수 있다.
+`exhibition-template`에는 `.pages.yml`이 이미 들어 있다. 새 전시회 레포를 만들면 아래 작업을 바로 할 수 있다.
 
 - Exhibition Info 단일 파일 편집
 - Artists 컬렉션 생성/수정
 - Artworks 컬렉션 생성/수정
-- 원본 이미지와 전시 포스터 업로드
+- 원본 이미지, 작가 이미지, 전시 포스터 업로드
 
 ### Pages CMS에서 작품 post를 직접 만드는 방법
 
@@ -211,7 +243,17 @@ order: 2
 6. 저장하면 GitHub에 `_artworks/{slug}.md`가 생성된다.
 7. GitHub Actions가 썸네일과 `data/artworks.json`을 자동 갱신한다.
 
-즉 업로드 페이지와 Pages CMS는 같은 마크다운 구조를 공유한다.
+### Pages CMS에서 작가 정보를 직접 만드는 방법
+
+1. `Artists` 컬렉션으로 이동한다.
+2. `Create` 또는 기존 문서를 연다.
+3. 아래 필드를 채운다.
+   - `name`
+   - `slug`
+   - `camera_model`
+   - `portrait_image` 선택
+   - `body`
+4. 저장하면 GitHub에 `_artists/{slug}.md`가 생성되거나 수정된다.
 
 ## 업로드 페이지 동작 방식
 
@@ -221,21 +263,21 @@ order: 2
 - `/upload/artist/` -> `POST /upload/artist`
 - `/upload/exhibition/` -> `POST /upload/exhibition`
 
-프론트엔드 동작:
+동작 순서:
 
 1. `exhibition.setup.yml`에서 생성된 `assets/js/config.js`가 `repoName`을 읽는다.
 2. 화면에서 입력값으로 저장 경로 preview를 만든다.
 3. `POST /auth`로 공통 암호를 검증한다.
 4. 발급받은 Bearer 토큰으로 실제 업로드 엔드포인트를 호출한다.
 5. Worker는 GitHub REST API로 현재 레포에 파일을 저장한다.
-6. 이후 해당 레포의 GitHub Actions가 썸네일과 공개용 JSON을 갱신한다.
+6. 해당 레포의 GitHub Actions가 썸네일과 공개용 JSON을 갱신한다.
 
 중요:
 
 - 요청 payload에는 항상 `repoName`이 포함된다.
 - 공용 Worker는 `repoName` prefix가 `exhibition`인지 검사한다.
 
-## 썸네일 생성 구조
+## 썸네일과 공개 JSON 생성 구조
 
 썸네일은 Worker가 아니라 GitHub Actions가 만든다.
 
@@ -261,20 +303,5 @@ order: 2
 2. `Settings -> Pages`에서 Pages를 켠다.
 3. `exhibition.setup.yml` 한 파일만 수정한다.
 4. `Sync Template Settings` 워크플로가 `_config.yml`, `assets/js/config.js`, `_exhibition/index.md`를 자동 갱신한다.
-5. Pages CMS에 접속해서 작가/작품을 직접 만들거나 업로드 페이지를 사용한다.
+5. README에 적힌 직접 URL로 업로드 페이지에 접근하거나 Pages CMS를 사용한다.
 6. 업로드가 끝나면 GitHub Actions가 썸네일을 자동 생성한다.
-
-## 로컬 메모
-
-썸네일과 공개용 JSON을 직접 갱신하고 싶다면:
-
-```bash
-npm install
-npm run sync:template
-npm run sync:assets
-```
-
-## 참고 문서
-
-- 아키텍처 개요: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- 운영 가이드: [docs/OPERATIONS.md](docs/OPERATIONS.md)

@@ -72,8 +72,7 @@ textarea {
 
 .brand-kicker,
 .page-kicker,
-.runtime-label,
-.footer-label {
+.runtime-label {
   text-transform: uppercase;
   letter-spacing: 0.16em;
   font-size: 0.72rem;
@@ -282,6 +281,23 @@ textarea {
   color: var(--muted);
 }
 
+.artist-card {
+  display: grid;
+  gap: 18px;
+}
+
+.artist-media {
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--paper-strong);
+  aspect-ratio: 4 / 5;
+}
+
+.artist-portrait {
+  height: 100%;
+  object-fit: cover;
+}
+
 .search-field {
   display: grid;
   gap: 8px;
@@ -448,10 +464,7 @@ textarea {
 }
 
 .footer-shell {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
+  display: block;
   padding-top: 24px;
   border-top: 1px solid var(--line);
 }
@@ -521,7 +534,7 @@ textarea {
 
   .site-nav {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 8px;
     width: 100%;
   }
@@ -598,10 +611,6 @@ textarea {
 }
 
 @media (max-width: 540px) {
-  .site-nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .tile-grid,
   .photo-grid,
   .artist-list {
