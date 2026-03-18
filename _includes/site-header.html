@@ -1,0 +1,18 @@
+{% assign exhibition = include.exhibition %}
+<header class="site-header">
+  <div class="site-shell header-shell">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-kicker">Exhibition Archive</span>
+      <span class="brand-name">{{ exhibition.title | default: site.title }}</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="is-active"{% endif %}>Home</a>
+      <a href="{{ '/artists/' | relative_url }}" {% if page.url contains '/artists/' %}class="is-active"{% endif %}>Artists</a>
+      <a href="{{ '/photos/' | relative_url }}" {% if page.url contains '/photos/' %}class="is-active"{% endif %}>Photos</a>
+      <a href="{{ '/upload/artwork/' | relative_url }}" {% if page.url contains '/upload/artwork/' %}class="is-active"{% endif %}>Upload Work</a>
+      <a href="{{ '/upload/artist/' | relative_url }}" {% if page.url contains '/upload/artist/' %}class="is-active"{% endif %}>Upload Artist</a>
+      <a href="{{ '/upload/exhibition/' | relative_url }}" {% if page.url contains '/upload/exhibition/' %}class="is-active"{% endif %}>Upload Exhibition</a>
+    </nav>
+  </div>
+</header>
+

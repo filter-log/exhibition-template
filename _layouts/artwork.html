@@ -1,0 +1,38 @@
+{% assign exhibition = site.exhibition | first %}
+{% include site-head.html %}
+    {% include site-header.html exhibition=exhibition %}
+    <main class="site-main">
+      <section class="detail-shell">
+        <div class="site-shell detail-grid">
+          <figure class="detail-image-wrap">
+            <img class="detail-image" src="{{ page.image | relative_url }}" alt="{{ page.title | escape }}">
+          </figure>
+          <article class="detail-copy">
+            <p class="page-kicker">Artwork Detail</p>
+            <p class="detail-artist"><strong>{{ page.artist_name }}</strong></p>
+            <h1 class="detail-title"><strong>{{ page.title }}</strong></h1>
+            {% capture detail_meta %}
+              {% if page.location %}{{ page.location }}{% endif %}
+              {% if page.camera_model %}
+                {% if page.location %} | {% endif %}{{ page.camera_model }}
+              {% endif %}
+              {% if page.sns_id %}
+                {% if page.location or page.camera_model %} | {% endif %}{{ page.sns_id }}
+              {% endif %}
+            {% endcapture %}
+            <p class="detail-meta">{{ detail_meta | strip }}</p>
+            <div class="detail-body">
+              {{ content }}
+            </div>
+            <div class="detail-actions">
+              <a href="{{ '/photos/' | relative_url }}">Back to Photos</a>
+              <a href="{{ page.image | relative_url }}" target="_blank" rel="noreferrer">Open Original</a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+    {% include site-footer.html exhibition=exhibition %}
+  </body>
+</html>
+

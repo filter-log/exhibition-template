@@ -1,0 +1,82 @@
+---
+title: Upload Artwork
+description: Upload a photograph and artwork metadata through the shared exhibition worker.
+body_class: upload-page
+scripts:
+  - /assets/js/config.js
+  - /assets/js/upload-shared.js
+  - /assets/js/upload-artwork.js
+---
+<section class="page-shell upload-shell">
+  <div class="site-shell upload-grid">
+    <div class="upload-column">
+      <header class="page-header">
+        <p class="page-kicker">Worker Upload</p>
+        <h1>사진 업로드</h1>
+        <p class="page-summary">작품 이미지, 제목, 작가, 카메라, 장소, SNS ID, 설명을 입력하면 Worker가 원본 이미지와 작품 Markdown을 같은 저장소에 저장한다.</p>
+      </header>
+
+      <form id="artwork-upload-form" class="upload-form">
+        <label>
+          <span>사진 파일</span>
+          <input id="artwork-image" name="image" type="file" accept="image/*" required>
+        </label>
+        <label>
+          <span>작품명</span>
+          <input id="artwork-title" name="title" type="text" maxlength="120" required>
+        </label>
+        <label>
+          <span>작가</span>
+          <input id="artwork-artist" name="artistName" type="text" maxlength="120" required>
+        </label>
+        <label>
+          <span>카메라 기종</span>
+          <input id="artwork-camera" name="cameraModel" type="text" maxlength="120" required>
+        </label>
+        <label>
+          <span>장소</span>
+          <input id="artwork-location" name="location" type="text" maxlength="160" required>
+        </label>
+        <label>
+          <span>SNS ID</span>
+          <input id="artwork-sns" name="snsId" type="text" maxlength="120" placeholder="@artist or blank">
+        </label>
+        <label>
+          <span>작품 설명</span>
+          <textarea id="artwork-description" name="description" maxlength="200" rows="5" required></textarea>
+          <small><span id="artwork-description-count">0</span> / 200</small>
+        </label>
+        <label>
+          <span>업로드 암호</span>
+          <input id="artwork-password" name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit">Upload Artwork</button>
+      </form>
+    </div>
+
+    <aside class="upload-panel">
+      <article class="runtime-card">
+        <p class="runtime-label">Runtime</p>
+        <dl class="runtime-list">
+          <div><dt>Repo</dt><dd id="runtime-repo-name">-</dd></div>
+          <div><dt>Worker</dt><dd id="runtime-worker-state">Checking...</dd></div>
+          <div><dt>Endpoint</dt><dd id="runtime-worker-endpoint">-</dd></div>
+          <div><dt>Site</dt><dd id="runtime-site-url">-</dd></div>
+          <div><dt>Pages CMS</dt><dd id="runtime-cms-url">-</dd></div>
+        </dl>
+      </article>
+
+      <article class="runtime-card">
+        <p class="runtime-label">Planned Files</p>
+        <pre id="artwork-payload-preview" class="runtime-json">{}</pre>
+      </article>
+
+      <article class="runtime-card">
+        <p class="runtime-label">Response</p>
+        <p id="artwork-status" class="status-banner">Worker 연결 상태를 확인하는 중이다.</p>
+        <pre id="artwork-response-preview" class="runtime-json">{}</pre>
+      </article>
+    </aside>
+  </div>
+</section>
+

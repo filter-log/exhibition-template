@@ -1,0 +1,50 @@
+---
+title: Photos
+description: Full artwork index with thumbnail tiles and detail links.
+scripts:
+  - /assets/js/site.js
+---
+{% assign artworks = site.artworks | sort: 'order' %}
+<section class="page-shell">
+  <div class="site-shell">
+    <header class="page-header">
+      <p class="page-kicker">Artwork Index</p>
+      <h1>Photos</h1>
+      <p class="page-summary">썸네일 타일로 전체 작품을 훑고, 제목이나 작가명으로 빠르게 찾은 뒤 상세 페이지로 이동할 수 있다.</p>
+    </header>
+
+    <div class="filter-toolbar">
+      <label class="search-field">
+        <span>Search</span>
+        <input type="search" placeholder="작가명 또는 작품명 검색" data-photo-search>
+      </label>
+      <p class="filter-count"><span data-photo-count>{{ artworks | size }}</span> works</p>
+    </div>
+
+    <div class="photo-grid" data-photo-grid>
+      {% for artwork in artworks %}
+        {% if artwork.thumb_image %}
+          {% assign artwork_thumb = artwork.thumb_image %}
+        {% else %}
+          {% assign artwork_thumb = '/assets/uploads/thumbs/' | append: artwork.slug | append: '.webp' %}
+        {% endif %}
+        <a
+          class="photo-card"
+          href="{{ artwork.url | relative_url }}"
+          data-photo-card
+          data-photo-title="{{ artwork.title | downcase | escape }}"
+          data-photo-artist="{{ artwork.artist_name | downcase | escape }}"
+        >
+          <div class="photo-card-image-wrap">
+            <img class="photo-card-image" src="{{ artwork_thumb | relative_url }}" alt="{{ artwork.title | escape }}">
+          </div>
+          <div class="photo-card-copy">
+            <p class="photo-card-title">{{ artwork.title }}</p>
+            <p class="photo-card-meta">{{ artwork.artist_name }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+

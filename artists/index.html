@@ -1,0 +1,28 @@
+---
+title: Artists
+description: Artist list with camera models and bios.
+---
+{% assign artists = site.artists | sort: 'order' %}
+<section class="page-shell">
+  <div class="site-shell">
+    <header class="page-header">
+      <p class="page-kicker">Artist Directory</p>
+      <h1>Artists</h1>
+      <p class="page-summary">작가명, 카메라 기종, 작가 설명을 전시 아카이브 형식으로 정리한다.</p>
+    </header>
+    <div class="artist-list">
+      {% for artist in artists %}
+        <article class="artist-card">
+          <div class="artist-head">
+            <h2>{{ artist.name }}</h2>
+            <p>{{ artist.camera_model }}</p>
+          </div>
+          <div class="artist-body">
+            {{ artist.content | markdownify }}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+

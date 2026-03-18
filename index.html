@@ -1,0 +1,53 @@
+---
+title: Home
+description: Exhibition landing page with poster, curatorial note, and thumbnail archive.
+---
+{% assign exhibition = site.exhibition | first %}
+{% assign artworks = site.artworks | sort: 'order' %}
+<section class="hero-shell">
+  <div class="site-shell hero-grid">
+    <figure class="poster-panel">
+      <img class="poster-image" src="{{ exhibition.poster_image | relative_url }}" alt="{{ exhibition.hero_alt | default: exhibition.title | escape }}">
+    </figure>
+    <article class="intro-panel">
+      <p class="page-kicker">Exhibition Landing</p>
+      <h1 class="hero-title">{{ exhibition.title }}</h1>
+      <p class="hero-meta">{{ exhibition.dates }}{% if exhibition.venue %} · {{ exhibition.venue }}{% endif %}</p>
+      <p class="hero-tagline">{{ exhibition.tagline }}</p>
+      <div class="hero-copy">
+        {{ exhibition.content | markdownify }}
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="archive-shell">
+  <div class="site-shell">
+    <div class="section-heading">
+      <div>
+        <p class="page-kicker">Thumbnail Archive</p>
+        <h2>Selected Works</h2>
+      </div>
+      <a href="{{ '/photos/' | relative_url }}">See all photographs</a>
+    </div>
+    <div class="tile-grid">
+      {% for artwork in artworks %}
+        {% if artwork.thumb_image %}
+          {% assign artwork_thumb = artwork.thumb_image %}
+        {% else %}
+          {% assign artwork_thumb = '/assets/uploads/thumbs/' | append: artwork.slug | append: '.webp' %}
+        {% endif %}
+        <a class="tile-card" href="{{ artwork.url | relative_url }}">
+          <div class="tile-image-wrap">
+            <img class="tile-image" src="{{ artwork_thumb | relative_url }}" alt="{{ artwork.title | escape }}">
+          </div>
+          <div class="tile-copy">
+            <p class="tile-title">{{ artwork.title }}</p>
+            <p class="tile-artist">{{ artwork.artist_name }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+

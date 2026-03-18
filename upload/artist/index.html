@@ -1,0 +1,66 @@
+---
+title: Upload Artist
+description: Upload artist metadata through the shared exhibition worker.
+body_class: upload-page
+scripts:
+  - /assets/js/config.js
+  - /assets/js/upload-shared.js
+  - /assets/js/upload-artist.js
+---
+<section class="page-shell upload-shell">
+  <div class="site-shell upload-grid">
+    <div class="upload-column">
+      <header class="page-header">
+        <p class="page-kicker">Worker Upload</p>
+        <h1>작가 정보 업로드</h1>
+        <p class="page-summary">작가명, 카메라 기종, 작가 설명을 입력하면 `_artists/{slug}.md` 파일을 생성하거나 갱신한다.</p>
+      </header>
+
+      <form id="artist-upload-form" class="upload-form">
+        <label>
+          <span>작가명</span>
+          <input id="artist-name" name="artistName" type="text" maxlength="120" required>
+        </label>
+        <label>
+          <span>카메라 기종</span>
+          <input id="artist-camera" name="cameraModel" type="text" maxlength="120" required>
+        </label>
+        <label>
+          <span>작가 설명</span>
+          <textarea id="artist-bio" name="bio" maxlength="500" rows="7" required></textarea>
+          <small><span id="artist-bio-count">0</span> / 500</small>
+        </label>
+        <label>
+          <span>업로드 암호</span>
+          <input id="artist-password" name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit">Upload Artist</button>
+      </form>
+    </div>
+
+    <aside class="upload-panel">
+      <article class="runtime-card">
+        <p class="runtime-label">Runtime</p>
+        <dl class="runtime-list">
+          <div><dt>Repo</dt><dd id="runtime-repo-name">-</dd></div>
+          <div><dt>Worker</dt><dd id="runtime-worker-state">Checking...</dd></div>
+          <div><dt>Endpoint</dt><dd id="runtime-worker-endpoint">-</dd></div>
+          <div><dt>Site</dt><dd id="runtime-site-url">-</dd></div>
+          <div><dt>Pages CMS</dt><dd id="runtime-cms-url">-</dd></div>
+        </dl>
+      </article>
+
+      <article class="runtime-card">
+        <p class="runtime-label">Planned Files</p>
+        <pre id="artist-payload-preview" class="runtime-json">{}</pre>
+      </article>
+
+      <article class="runtime-card">
+        <p class="runtime-label">Response</p>
+        <p id="artist-status" class="status-banner">Worker 연결 상태를 확인하는 중이다.</p>
+        <pre id="artist-response-preview" class="runtime-json">{}</pre>
+      </article>
+    </aside>
+  </div>
+</section>
+

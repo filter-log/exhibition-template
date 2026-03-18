@@ -1,0 +1,19 @@
+{% assign exhibition = include.exhibition %}
+<footer class="site-footer">
+  <div class="site-shell footer-shell">
+    <div>
+      <p class="footer-label">Reusable template for GitHub Pages exhibitions.</p>
+      <p class="footer-copy">{{ exhibition.tagline | default: site.description }}</p>
+    </div>
+    <div class="footer-links">
+      {% if exhibition.public_url %}
+        <a href="{{ exhibition.public_url }}" target="_blank" rel="noreferrer">Public URL</a>
+      {% endif %}
+      {% if exhibition.cms_url %}
+        <a href="{{ exhibition.cms_url }}" target="_blank" rel="noreferrer">Pages CMS</a>
+      {% endif %}
+      <a href="{{ '/upload/artwork/' | relative_url }}">Worker Upload UI</a>
+    </div>
+  </div>
+</footer>
+

@@ -1,0 +1,58 @@
+name: Sync Exhibition Assets
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "_artworks/**"
+      - "_artists/**"
+      - "_exhibition/**"
+      - "assets/uploads/originals/**"
+      - "scripts/**"
+      - "package.json"
+      - ".github/workflows/sync-exhibition-assets.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-exhibition-assets-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate thumbnails and public data
+        env:
+          THUMB_LONG_EDGE: 720
+          WEBP_QUALITY: 82
+        run: npm run sync:assets
+
+      - name: Commit generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/uploads/thumbs data
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: sync exhibition assets"
+          git push

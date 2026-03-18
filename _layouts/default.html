@@ -1,0 +1,10 @@
+{% assign exhibition = site.exhibition | first %}
+{% include site-head.html %}
+    {% include site-header.html exhibition=exhibition %}
+    <main class="site-main">
+      {{ content }}
+    </main>
+    {% include site-footer.html exhibition=exhibition %}
+  </body>
+</html>
+

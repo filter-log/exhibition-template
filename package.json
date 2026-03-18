@@ -1,0 +1,13 @@
+{
+  "name": "exhibition-template",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync:assets": "node ./scripts/sync-exhibition-assets.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.1"
+  }
+}
+

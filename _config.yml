@@ -1,0 +1,28 @@
+title: Exhibition Template
+description: Reusable archive template for photography exhibitions on GitHub Pages.
+url: https://filter-log.github.io
+baseurl: /exhibition-template
+timezone: Asia/Seoul
+markdown: kramdown
+permalink: pretty
+
+collections:
+  artworks:
+    output: true
+    permalink: /photos/:name/
+  artists:
+    output: false
+  exhibition:
+    output: false
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: artworks
+    values:
+      layout: artwork
+
