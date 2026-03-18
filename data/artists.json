@@ -14,5 +14,14 @@
     "order": 2,
     "portrait_image": "/assets/exhibition/artist-placeholder.svg",
     "body": "도시 외곽의 수면과 안개를 중심으로 풍경을 수집한다. 느린 촬영 리듬과 넓은 여백을 통해 장소의 체온을 남기는 것을 중요하게 생각한다."
+  },
+  {
+    "name": "테스트",
+    "slug": "테스트",
+    "camera_model": "테스트 기종",
+    "updated_at": "2026-03-18T15:43:53.472Z",
+    "created_at": "2026-03-18T15:43:53.472Z",
+    "portrait_image": "/assets/exhibition/artist-placeholder.svg",
+    "body": "몰라."
   }
 ]
