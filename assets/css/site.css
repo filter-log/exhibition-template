@@ -384,6 +384,7 @@ textarea {
   background: #171717;
   color: #f7f4ec;
   overflow: auto;
+  max-height: 300px;
   font-size: 0.86rem;
   line-height: 1.6;
 }
@@ -465,7 +466,6 @@ textarea {
     --shell: min(100vw - 28px, 1180px);
   }
 
-  .header-shell,
   .section-heading,
   .page-header,
   .filter-toolbar,
@@ -474,8 +474,24 @@ textarea {
     flex-direction: column;
   }
 
+  .header-shell {
+    align-items: stretch;
+    gap: 14px;
+  }
+
   .site-nav {
-    justify-content: start;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .hero-shell,
@@ -486,9 +502,8 @@ textarea {
   }
 
   .tile-grid,
-  .photo-grid,
-  .artist-list {
-    grid-template-columns: 1fr;
+  .photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .intro-panel,
@@ -505,5 +520,32 @@ textarea {
   .section-heading h2 {
     font-size: clamp(2.1rem, 11vw, 3.4rem);
   }
+
+  .search-field {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .search-field input,
+  .upload-form button {
+    width: 100%;
+  }
 }
 
+@media (max-width: 540px) {
+  .tile-grid,
+  .photo-grid,
+  .artist-list {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-panel,
+  .detail-image-wrap,
+  .intro-panel,
+  .detail-copy,
+  .artist-card,
+  .runtime-card,
+  .upload-form {
+    border-radius: 20px;
+  }
+}
