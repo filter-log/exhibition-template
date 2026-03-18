@@ -295,6 +295,7 @@ textarea {
 .upload-column {
   display: grid;
   gap: 20px;
+  min-width: 0;
 }
 
 .upload-form {
@@ -352,6 +353,7 @@ textarea {
 .upload-panel {
   display: grid;
   gap: 18px;
+  min-width: 0;
 }
 
 .runtime-list {
@@ -385,6 +387,10 @@ textarea {
   color: #f7f4ec;
   overflow: auto;
   max-height: 300px;
+  max-width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   font-size: 0.86rem;
   line-height: 1.6;
 }
@@ -530,6 +536,11 @@ textarea {
   .runtime-card,
   .upload-form {
     padding: 20px;
+  }
+
+  .runtime-card,
+  .upload-form {
+    min-width: 0;
   }
 
   .hero-title,
